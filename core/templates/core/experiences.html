@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Experiências - Maria Eduarda{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Minhas Experiências</h1>
+    
+    <div class="row">
+        {% if experiences %}
+            {% for experience in experiences %}
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ experience.title }} - {{ experience.company }}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ experience.start_date|date:"F Y" }} - 
+                                {% if experience.current %}
+                                    Atual
+                                {% else %}
+                                    {{ experience.end_date|date:"F Y" }}
+                                {% endif %}
+                            </h6>
+                            <p class="card-text">{{ experience.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Nenhuma experiência cadastrada ainda.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

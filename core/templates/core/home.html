@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Início - Maria Eduarda{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Bem-vindo ao meu Portfólio</h1>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Sobre Mim</h2>
+                    <p class="card-text">{{ profile.bio }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-certificate me-2"></i> Certificados
+                </div>
+                <div class="card-body">
+                    <p>Confira meus certificados e qualificações.</p>
+                    <a href="{% url 'core:certificates' %}" class="btn btn-primary">Ver Certificados</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase me-2"></i> Experiências
+                </div>
+                <div class="card-body">
+                    <p>Conheça minha trajetória profissional e acadêmica.</p>
+                    <a href="{% url 'core:experiences' %}" class="btn btn-primary">Ver Experiências</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-envelope me-2"></i> Contato
+                </div>
+                <div class="card-body">
+                    <p>Entre em contato comigo por meio dos canais abaixo:</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+                        <p><i class="fas fa-phone"></i> <a href="tel:{{ profile.phone }}">{{ profile.phone }}</a></p>
+                        <p><i class="fab fa-github"></i> <a href="{{ profile.github }}" target="_blank">GitHub</a></p>
+                        <p><i class="fab fa-linkedin"></i> <a href="{{ profile.linkedin }}" target="_blank">LinkedIn</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfólio - Maria Eduarda{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #f1faee;
+            --dark-color: #1d3557;
+            --light-color: #a8dadc;
+            --accent-color: #457b9d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+        
+        .sidebar {
+            background-color: var(--primary-color);
+            color: white;
+            min-height: 100vh;
+            padding: 20px 0;
+            position: fixed;
+            width: 250px;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .nav-link {
+            color: white;
+            padding: 10px 20px;
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #d42836;
+            border-color: #d42836;
+        }
+        
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .contact-info a {
+            color: var(--dark-color);
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                min-height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 sidebar">
+                <div class="text-center my-4">
+                    {% if profile.use_default_photo or profile.default_photo_path %}
+                        <img src="{% if profile.default_photo_path %}{% load static %}{% static profile.default_photo_path %}{% else %}{{ profile.photo.url }}{% endif %}" alt="Foto de Perfil" class="profile-img">
+                    {% elif profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="Foto de Perfil" class="profile-img">
+                    {% else %}
+                        <img src="https://via.placeholder.com/150" alt="Foto de Perfil" class="profile-img">
+                    {% endif %}
+                    <h4 class="mt-2">{{ profile.name|default:"Maria Eduarda" }}</h4>
+                </div>
+                <nav class="nav flex-column mt-4">
+                    <a href="{% url 'core:home' %}" class="nav-link {% if active_tab == 'home' %}active{% endif %}">
+                        <i class="fas fa-home"></i> Início
+                    </a>
+                    <a href="{% url 'core:certificates' %}" class="nav-link {% if active_tab == 'certificates' %}active{% endif %}">
+                        <i class="fas fa-certificate"></i> Certificados
+                    </a>
+                    <a href="{% url 'core:experiences' %}" class="nav-link {% if active_tab == 'experiences' %}active{% endif %}">
+                        <i class="fas fa-briefcase"></i> Experiências
+                    </a>
+                    <a href="{% url 'core:contact' %}" class="nav-link {% if active_tab == 'contact' %}active{% endif %}">
+                        <i class="fas fa-envelope"></i> Contato
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-8 main-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

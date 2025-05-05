@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Certificados - Maria Eduarda{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Meus Certificados</h1>
+    
+    <div class="row">
+        {% if certificates %}
+            {% for certificate in certificates %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            {{ certificate.title }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ certificate.institution }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ certificate.date|date:"F Y" }}</h6>
+                            {% if certificate.description %}
+                                <p class="card-text">{{ certificate.description }}</p>
+                            {% endif %}
+                            {% if certificate.link %}
+                                <a href="{{ certificate.link }}" class="btn btn-primary" target="_blank">Ver Certificado</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Nenhum certificado cadastrado ainda.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
