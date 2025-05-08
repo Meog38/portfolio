@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
 from .models import Certificate, Experience, Profile
 
 def home(request):
@@ -67,6 +70,33 @@ def contact(request):
             'linkedin': 'https://www.linkedin.com/in/meog38/',
             'default_photo_path': 'images/profile_photo.jpg'
         }
+    
+    # Lógica para processar o envio de email
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        subject = request.POST.get('subject', '')
+        message = request.POST.get('message', '')
+        
+        # Verificar se todos os campos estão preenchidos
+        if name and email and subject and message:
+            email_message = f"Nome: {name}\nEmail: {email}\n\nMensagem:\n{message}"
+            
+            try:
+                # Enviar o email
+                send_mail(
+                    subject=f"Contato Portfolio: {subject}",
+                    message=email_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[profile.email if hasattr(profile, 'email') else 'meog38@gmail.com'],
+                    fail_silently=False,
+                )
+                messages.success(request, 'Sua mensagem foi enviada com sucesso!')
+                return redirect('core:contact')
+            except Exception as e:
+                messages.error(request, f'Ocorreu um erro ao enviar sua mensagem: {str(e)}')
+        else:
+            messages.error(request, 'Por favor, preencha todos os campos.')
     
     context = {
         'profile': profile,

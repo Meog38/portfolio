@@ -6,6 +6,18 @@
 <div class="container">
     <h1 class="section-title">Entre em Contato</h1>
     
+    {% if messages %}
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -47,14 +59,23 @@
                     Envie uma Mensagem
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="{% url 'core:contact' %}">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="subject" required>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Assunto</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Mensagem</label>
-                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
                     </form>
@@ -63,12 +84,4 @@
         </div>
     </div>
 </div>
-{% endblock %}form-control" id="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Assunto</label>
-                            <input type="text" class="
+{% endblock %}
